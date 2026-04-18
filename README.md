@@ -1,91 +1,130 @@
 # Tab Out
 
-**Keep tabs on your tabs.**
+**把你的标签页重新管理起来。**
 
-Tab Out is a Chrome extension that replaces your new tab page with a dashboard of everything you have open. Tabs are grouped by domain, with homepages (Gmail, X, LinkedIn, etc.) pulled into their own group. Close tabs with a satisfying swoosh + confetti.
+Tab Out 是一个 Chrome 新标签页扩展。它会把你当前打开的所有标签页整理成一个可视化面板，按域名分组展示，并把 Gmail、X、LinkedIn、GitHub、YouTube 等首页类页面单独归组，方便你快速切换、批量整理和关闭。
 
-No server. No account. No external API calls. Just a Chrome extension.
+这是一个纯前端 Chrome 扩展：
 
----
-
-## Install with a coding agent
-
-Send your coding agent (Claude Code, Codex, etc.) this repo and say **"install this"**:
-
-```
-https://github.com/zarazhangrui/tab-out
-```
-
-The agent will walk you through it. Takes about 1 minute.
+- 不需要服务端
+- 不需要账号
+- 不调用外部 API
+- 数据默认保存在本地 `chrome.storage.local`
 
 ---
 
-## Features
+## 项目说明
 
-- **See all your tabs at a glance** on a clean grid, grouped by domain
-- **Homepages group** pulls Gmail inbox, X home, YouTube, LinkedIn, GitHub homepages into one card
-- **Close tabs with style** with swoosh sound + confetti burst
-- **Duplicate detection** flags when you have the same page open twice, with one-click cleanup
-- **Click any tab to jump to it** across windows, no new tab opened
-- **Save for later** bookmark tabs to a checklist before closing them
-- **Localhost grouping** shows port numbers next to each tab so you can tell your vibe coding projects apart
-- **Expandable groups** show the first 8 tabs with a clickable "+N more"
-- **100% local** your data never leaves your machine
-- **Pure Chrome extension** no server, no Node.js, no npm, no setup beyond loading the extension
+本仓库是基于原项目分叉并继续维护的中文增强版本：
+
+- 原项目地址：`https://github.com/zarazhangrui/tab-out`
+- 当前分叉仓库：`https://github.com/canyexuanfan/tab-out`
+- 开源协议：MIT
+
+在保留原作者版权和许可证的前提下，本分叉版本增加了更适合中文用户的说明文档，以及一系列交互与体验增强。
 
 ---
 
-## Manual Setup
+## 主要功能
 
-**1. Clone the repo**
+- **按域名总览全部标签页**，用网格方式统一展示
+- **首页类页面单独分组**，更适合快速清理 Gmail、GitHub、X、YouTube 等常驻页面
+- **标签卡片支持折叠/展开**，也支持顶部一键全部折叠或全部展开
+- **重复标签检测**，同一页面重复打开时可快速清理
+- **点击标签直接跳转**，跨窗口也能快速定位，不会新开页面
+- **稍后处理**，可先保存网页再关闭标签，后续继续处理
+- **归档区**，把已处理内容单独归档管理
+- **右侧文件树式分组**，支持折叠、批量展开、搜索、关键词高亮
+- **整组打开模式**，支持后台静默打开、当前窗口打开、新窗口打开
+- **中英文切换**，支持界面语言切换并记住偏好
+- **100% 本地运行**，数据不离开你的浏览器
+
+---
+
+## 安装方式
+
+### 1. 克隆仓库
 
 ```bash
-git clone https://github.com/zarazhangrui/tab-out.git
+git clone https://github.com/canyexuanfan/tab-out.git
+cd tab-out
 ```
 
-**2. Load the Chrome extension**
+### 2. 加载 Chrome 扩展
 
-1. Open Chrome and go to `chrome://extensions`
-2. Enable **Developer mode** (top-right toggle)
-3. Click **Load unpacked**
-4. Navigate to the `extension/` folder inside the cloned repo and select it
+1. 打开 Chrome，进入 `chrome://extensions`
+2. 打开右上角的 **开发者模式**
+3. 点击 **加载已解压的扩展程序**
+4. 选择仓库中的 `extension/` 目录
 
-**3. Open a new tab**
+### 3. 打开新标签页
 
-You'll see Tab Out.
+安装完成后，打开一个新的标签页，就能看到 Tab Out 面板。
 
 ---
 
-## How it works
+## 使用方式
 
+```text
+打开一个新标签页
+  -> Tab Out 自动读取当前所有网页标签
+  -> 按域名进行分组
+  -> 首页类页面会被单独提取
+  -> 你可以点击标题直接跳转
+  -> 可以关闭单个标签或整组标签
+  -> 可以先移到“稍后处理”再继续整理
+  -> 已处理内容可以归档保存
 ```
-You open a new tab
-  -> Tab Out shows your open tabs grouped by domain
-  -> Homepages (Gmail, X, etc.) get their own group at the top
-  -> Click any tab title to jump to it
-  -> Close groups you're done with (swoosh + confetti)
-  -> Save tabs for later before closing them
-```
-
-Everything runs inside the Chrome extension. No external server, no API calls, no data sent anywhere. Saved tabs are stored in `chrome.storage.local`.
 
 ---
 
-## Tech stack
+## 本分叉版本增强内容
 
-| What | How |
-|------|-----|
+相较于上游版本，本仓库额外包含以下增强：
+
+- 中文化 README、AGENTS 和使用说明
+- 标签卡片折叠/展开与顶部批量控制
+- 顶部语言切换与界面文案持久化
+- 稍后处理 / 归档 分组化、文件树化
+- 分组批量操作、整组打开策略和模式记忆
+- 搜索框、关键词高亮、清空按钮、分组名搜索
+
+---
+
+## 技术栈
+
+| 项目 | 说明 |
+|------|------|
 | Extension | Chrome Manifest V3 |
-| Storage | chrome.storage.local |
-| Sound | Web Audio API (synthesized, no files) |
-| Animations | CSS transitions + JS confetti particles |
+| Storage | `chrome.storage.local` |
+| Sound | Web Audio API（运行时合成，无独立音频文件） |
+| Animation | CSS transition + JS confetti particle |
 
 ---
 
-## License
+## 许可证
 
-MIT
+本项目继续使用 **MIT License**。
+
+- 保留原作者版权信息
+- 保留原 MIT 许可条款
+- 分叉版本新增内容同样以 MIT 协议开源
+
+正式许可证原文见 [LICENSE](file:///f:/Trae%20AI/tab-out/LICENSE)。
+
+中文参考译文见 [LICENSE.zh-CN.md](file:///f:/Trae%20AI/tab-out/LICENSE.zh-CN.md)。
+
+说明：
+
+- `LICENSE` 英文原文是正式法律文本
+- `LICENSE.zh-CN.md` 仅供中文阅读理解
+- 如中英文文本存在差异，以英文原文为准
 
 ---
 
-Built by [Zara](https://x.com/zarazhangrui)
+## 版权与署名
+
+- Original author: Zara Zhang
+- Fork maintainer: canyexuanfan
+
+如果你从本仓库继续分叉或二次分发，请保留原始 MIT 许可证与版权声明。

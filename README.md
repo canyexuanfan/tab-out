@@ -140,10 +140,4 @@ cd tab-out
 
 - `extension/` 扩展代码
 - `README.md`、`AGENTS.md`
-- `LICENSE` 与 `LICENSE.zh-CN.md`
-
-以下内容建议只保留在本地：
-
-- `questions/` 排查文档
-- `README.local.md` 本地维护说明
-- 私有调试记录与个人工作流材料
+- `LICENSE` 与 `LICENSE.zh-CN.md

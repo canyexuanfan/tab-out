@@ -25,6 +25,31 @@
 
 // All open tabs — populated by fetchOpenTabs()
 let openTabs = [];
+let refreshTimer = null;
+let refreshInFlight = false;
+
+function scheduleDashboardRefresh(delay = 120) {
+  if (refreshTimer) {
+    clearTimeout(refreshTimer);
+  }
+
+  refreshTimer = setTimeout(async () => {
+    refreshTimer = null;
+
+    if (refreshInFlight) {
+      scheduleDashboardRefresh(80);
+      return;
+    }
+
+    refreshInFlight = true;
+    try {
+      await fetchOpenTabs();
+      await renderDashboard();
+    } finally {
+      refreshInFlight = false;
+    }
+  }, delay);
+}
 
 /**
  * fetchOpenTabs()
@@ -2596,4 +2621,24 @@ document.addEventListener('keydown', (e) => {
 /* ----------------------------------------------------------------
    INITIALIZE
    ---------------------------------------------------------------- */
+chrome.tabs.onCreated.addListener(() => {
+  scheduleDashboardRefresh();
+});
+
+chrome.tabs.onRemoved.addListener(() => {
+  scheduleDashboardRefresh();
+});
+
+chrome.tabs.onUpdated.addListener((_tabId, changeInfo) => {
+  if (changeInfo.url || changeInfo.title || changeInfo.status === 'complete') {
+    scheduleDashboardRefresh();
+  }
+});
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === 'local' && changes.deferred) {
+    scheduleDashboardRefresh(60);
+  }
+});
+
 renderDashboard();
